@@ -101,7 +101,16 @@ server = app.server
 
 encoded = ''
 
-
+#Configuring settings to save plot as image
+config = {
+  'toImageButtonOptions': {
+    'format': 'png', 
+    'filename': 'new_plot',
+    'height': 1000,
+    'width': 900,
+    'scale':10 
+  }
+}
 
 #Setting the layout of the Dash app
 app.layout = html.Div([
@@ -210,7 +219,7 @@ def update_map(n, value, box):
         colorbar=dict(title=f'{title} [μg/m³]')
         ))
     
-    fig.update_layout(
+    fig.update_layout(width=1000, height=900,
         margin={"r":0, "t":0, "l":0, "b":0},
         mapbox=dict(
             accesstoken= mapbox_access_token,
