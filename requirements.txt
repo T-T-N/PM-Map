@@ -1,0 +1,9 @@
+dash==2.9.3
+oauthlib
+requests_oauthlib
+requests
+plotly
+dash
+gunicorn
+numpy
+shapely
