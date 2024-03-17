@@ -129,7 +129,7 @@ app.layout = html.Div([
     html.Div(id='dd-output-container'),
     dcc.Checklist(
         id='check',
-        options = [{'label': 'Show Buildings', 'value':1}],
+        options = [{'label': 'Show Buildings', 'value':1},{'label':'Enable Download', 'value':2}],
         value = []
         ),
     html.A(
@@ -232,12 +232,16 @@ def update_map(n, value, box):
         ),
     )
 
-    #writing plot to html file to be saved locally
-    """buffer = io.StringIO()
-    fig.write_html(buffer)
+    if 2 in box:
+        #writing plot to html file to be saved locally
+        buffer = io.StringIO()
+        fig.write_html(buffer)
 
-    html_bytes = buffer.getvalue().encode()
-    encoded = b64encode(html_bytes).decode()"""
+        html_bytes = buffer.getvalue().encode()
+        encoded = b64encode(html_bytes).decode()
+    else:
+        encoded = ''
+
 
     return fig, f"data:text/html;base64,{encoded}"
 
