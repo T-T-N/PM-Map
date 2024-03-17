@@ -117,7 +117,7 @@ app.layout = html.Div([
     dcc.Graph(id='live-update-graph'),
     dcc.Interval(
         id='interval-component',
-        interval=3000,  # Update graph every 2 seconds
+        interval=2000,  # Update graph every 2 seconds
         n_intervals=0
     ),
     dcc.Dropdown(options=[
@@ -233,11 +233,11 @@ def update_map(n, value, box):
     )
 
     #writing plot to html file to be saved locally
-    buffer = io.StringIO()
+    """buffer = io.StringIO()
     fig.write_html(buffer)
 
     html_bytes = buffer.getvalue().encode()
-    encoded = b64encode(html_bytes).decode()
+    encoded = b64encode(html_bytes).decode()"""
 
     return fig, f"data:text/html;base64,{encoded}"
 
