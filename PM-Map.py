@@ -97,6 +97,7 @@ pm25 = heat(size)
 pm10 = heat(size)
 
 app = Dash(__name__)
+server = app.server
 
 encoded = ''
 
