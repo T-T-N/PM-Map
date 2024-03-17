@@ -101,23 +101,14 @@ server = app.server
 
 encoded = ''
 
-#Configuring settings to save plot as image
-config = {
-  'toImageButtonOptions': {
-    'format': 'png', 
-    'filename': 'new_plot',
-    'height': 1000,
-    'width': 900,
-    'scale':10 
-  }
-}
+
 
 #Setting the layout of the Dash app
 app.layout = html.Div([
     dcc.Graph(id='live-update-graph'),
     dcc.Interval(
         id='interval-component',
-        interval=2000,  # Update graph every 2 seconds
+        interval=3000,  # Update graph every 2 seconds
         n_intervals=0
     ),
     dcc.Dropdown(options=[
