@@ -199,7 +199,7 @@ def update_map(n, value, box):
     #Deciding which basemap to use depending on checklist status
     if 1 in box:
         style = 'mapbox://styles/ttn1g21/cltx67i8i002401pf3sq5eoil'
-        opacity = 0.6
+        opacity = 0.4
     else:
         style = 'light'
         opacity = 0.4
