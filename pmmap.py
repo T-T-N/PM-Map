@@ -117,7 +117,7 @@ app.layout = html.Div([
     dcc.Graph(id='live-update-graph'),
     dcc.Interval(
         id='interval-component',
-        interval=1000,  # Update graph every 2 seconds
+        interval=2000,  # Update graph every 2 seconds
         n_intervals=0
     ),
     dcc.Dropdown(options=[
