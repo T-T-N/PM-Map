@@ -11,6 +11,7 @@
 #https://plotly.com/python/interactive-html-export/
 #https://community.plotly.com/t/heatmap-mapbox-for-displaying-weather-maps/34150
 #https://www.matecdev.com/posts/point-in-polygon.html 
+#https://rafatieppo.github.io/post/2018_07_27_idw2pyr/
 
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
@@ -44,6 +45,28 @@ class heat():
             heat.maxi = heat.mini + 0.01 #prevents min and max from being equal
         elif heat.maxi < val:
             heat.maxi = val
+
+#Function to fill grid by interpolating known results
+def idw(avg):
+    inter = [None for _ in range(size**2)]
+    for i in range(size**2):
+        if avg[i] == [None]:
+            dist = []
+            value = []
+            for j in range(size**2):
+                    if avg[j] != [None]:
+                        dist.append(np.sqrt(((i%size)-(j%size))**2+((i//size)-(j//size))**2))
+                        value.append(avg[j])
+            if len(dist) != 0:
+                inv = list((1 / np.power(dist, 2)))
+                B = np.sum(inv)
+                A = np.sum(np.array(inv)*np.array(value))
+                inter[i] = A/B
+            else:
+                inter[i] = None            
+        else:
+            inter[i] = avg[i]
+    return inter
 
 #Tokens and Keys for mapbox and Arduino IoT cloud
 mapbox_access_token = 'pk.eyJ1IjoidHRuMWcyMSIsImEiOiJjbHNvbWV0NmYwNWppMmpuamg1YzhxeGZmIn0.PEn-3qudCiL0l8QMA659JQ'
@@ -123,7 +146,10 @@ app.layout = html.Div([
     dcc.Dropdown(options=[
                 {'label': 'PM1', 'value': 1},
                 {'label': 'PM2.5', 'value': 2},
-                {'label': 'PM10', 'value': 3}
+                {'label': 'PM10', 'value': 3},
+                {'label': 'PM1 IDW', 'value': 4},
+                {'label': 'PM2.5 IDW', 'value': 5},
+                {'label': 'PM10 IDW', 'value': 6},
             ], 
             value=3, id='demo-dropdown'),
     html.Div(id='dd-output-container'),
@@ -195,14 +221,25 @@ def update_map(n, value, box):
     elif value == 1:
         z = pm1.avg
         title = 'PM1'
+    elif value == 4:
+        z = idw(pm1.avg)
+        title = 'PM1'
+    elif value == 5:
+        z = idw(pm25.avg)
+        title = 'PM2.5'
+    elif value == 6:
+        z = idw(pm10.avg)
+        title = 'PM10'
     
     #Deciding which basemap to use depending on checklist status
     if 1 in box:
+        #style = 'mapbox://styles/ttn1g21/cltotjat9006t01qw0r5se71n'
         style = 'mapbox://styles/ttn1g21/cltynpj7n006a01pfg3iygo3d'
         opacity = 0.4
     else:
         style = 'light'
         opacity = 0.4
+
 
     #Creating figure
     fig = go.Figure(data=go.Choroplethmapbox(
@@ -242,8 +279,8 @@ def update_map(n, value, box):
     else:
         encoded = ''
 
-
     return fig, f"data:text/html;base64,{encoded}"
+
 
 if __name__ == '__main__':
     app.run_server(debug=False, host='0.0.0.0', port=1000)
