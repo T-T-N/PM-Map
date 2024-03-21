@@ -233,7 +233,6 @@ def update_map(n, value, box):
     
     #Deciding which basemap to use depending on checklist status
     if 1 in box:
-        #style = 'mapbox://styles/ttn1g21/cltotjat9006t01qw0r5se71n'
         style = 'mapbox://styles/ttn1g21/cltynpj7n006a01pfg3iygo3d'
         opacity = 0.4
     else:
