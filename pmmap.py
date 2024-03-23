@@ -173,6 +173,7 @@ app.layout = html.Div([
     Input('demo-dropdown', 'value'),
     Input('check', 'value')
 )
+#function to update graph every n seconds
 def update_map(n, value, box):
     #obtaining Arduino IoT Cloud token
     token = oauth.fetch_token(
@@ -269,7 +270,7 @@ def update_map(n, value, box):
     )
 
     if 2 in box:
-        #writing plot to html file to be saved locally
+        #writing plot to html file to be saved locally if 'enable download' is selected
         buffer = io.StringIO()
         fig.write_html(buffer)
 
