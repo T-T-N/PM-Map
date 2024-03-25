@@ -128,7 +128,7 @@ encoded = ''
 config = {
   'toImageButtonOptions': {
     'format': 'png', 
-    'filename': 'new_plot',
+    'filename': 'PMmap',
     'height': 1000,
     'width': 900,
     'scale':10 
