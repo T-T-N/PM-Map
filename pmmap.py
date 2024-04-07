@@ -203,8 +203,8 @@ def update_map(n, value, box):
     lon = resp['properties'][3]['last_value']['lon']
 
     #performing point-in-polygon tests, then averaging PM values within each grid
+    pnt = Point(lon, lat)
     for j in range(size**2):
-            pnt = Point(lon, lat)
             ply = Polygon(geojson['features'][j]['geometry']['coordinates'][0])
             if pnt.within(ply):
                 pm10.add(j, p10)
